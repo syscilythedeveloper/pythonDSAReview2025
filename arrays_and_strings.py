@@ -13,11 +13,6 @@ def isUnique(word):
             return False
     return True
 
-'''
-space complexity -> O(n) because making a charMap based on the number of chars in the string
-time complexity -> O(2n) -> 0(n) because iterating through word once and charMap once
-'''
-
 
 #1a. What if you can't use additional data strucutures?
 def isUnique2(word):
@@ -28,10 +23,6 @@ def isUnique2(word):
                 return False
     return True
 
-'''
-space ->  O(1) - no additional data strucutres
-time  -> O(n^2) - nested loop 
-'''
 
 #2. Is permutation 
 def checkPermutation(str1, str2):
@@ -44,19 +35,22 @@ def checkPermutation(str1, str2):
     for char in str2: 
         charMap2[char] = charMap2.get(char, 0) +1
     return charMap1 == charMap2
-'''
-space -> O(n) -> Creating additional hashmap with n as number of chars
-time -> O(n)  n in the length of strings to interate through 
-
-''' 
-#print(checkPermutation("car", "rac"))
 
 #3. URLify - replace all spacees ina string with '%20'
 def URLify(str):
-    str = str.strip()
-    for i in range(len(str)):
-        if str[i] == " ":
-            str = str.replace(str[i], "%20")
-    return str
+    trimmed = str.strip()
+    return trimmed.replace(" ", "%20")   
 
-print(URLify("      Syscily Nicole Brown   "))
+#4 palindrome permutation 
+def palindrome_perm(str):
+
+    alphaChars = ''.join(c.lower() for c in str if c.isalpha())
+    charCount = defaultdict(int)
+    for char in alphaChars:
+        charCount[char] +=1
+    oddBall = set()
+    for key in charCount:
+        if charCount[key] % 2 != 0:
+            oddBall.add(charCount[key])
+    return len(oddBall) <= 1
+
