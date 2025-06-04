@@ -54,3 +54,27 @@ def palindrome_perm(str):
             oddBall.add(charCount[key])
     return len(oddBall) <= 1
 
+#5 One away 
+
+#########Review 
+#6 String compression
+
+def string_compression(input_s):
+    compressed = ""
+    count = 1 
+    i = 1  
+    while i < len(input_s):
+        if input_s[i] == input_s[i-1]:
+            count+=1
+        else: 
+            compressed+= input_s[i-1]
+            compressed+= str(count)
+            count = 1 
+        i+=1
+    compressed+= input_s[i-1]
+    compressed+= str(count)
+    return compressed
+print(string_compression("sssyy"))
+
+
+
