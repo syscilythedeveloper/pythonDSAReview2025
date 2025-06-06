@@ -1,2 +1,2 @@
-    # for i in range(k, len(arr)):
-    #     new_average = sum(arr[])
+     if s_hash == p_hash:
+            output.append(i-p_length+1)

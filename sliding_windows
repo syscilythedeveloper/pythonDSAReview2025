@@ -54,3 +54,84 @@ Input: "abciiidef", K = 3
 Output: 3 (substring "iii")
 
 Your Task: Only count a, e, i, o, u as vowels."""
+
+#brute force
+'''def count_vowels(s):
+    vowel_count = 0 
+    vowels = ["a", "e", "i", "o", "u"]
+    for letter in s: 
+        if letter in vowels: 
+            vowel_count+=1
+    return vowel_count 
+
+print(count_vowels("abciiidef"))
+
+def max_vowels_substring(s, k):
+    current_vowel_count = 0
+    counting_range = s[:k]
+    current_vowel_count = count_vowels(counting_range)
+    max_vowel_count = current_vowel_count
+    for i in range(k, len(s)):
+        counting_range = s[i-k+1:i+1]
+        current_vowel_count = count_vowels(counting_range)
+        max_vowel_count = max(current_vowel_count, max_vowel_count)
+    return max_vowel_count
+
+print(max_vowels_substring("abcideef",3))
+'''
+
+def max_vowels_substring(s, k):
+    vowels = set("aeiou")
+    current_count = sum(1 for char in s[:k] if char in vowels)
+    max_vowels = current_count
+
+    for i in range(k, len(s)):
+        if s[i-k] in vowels: 
+            current_count -=1
+        if s[i] in vowels: 
+            current_count+=1
+        max_vowels = max(current_count, max_vowels)
+    return max_vowels
+
+
+#print(max_vowels_substring("abciiideef",3))
+
+"""
+4. Find All Anagrams in a String
+Difficulty: Medium
+Problem: Given two strings s and p, return all start indices of p's anagrams in s. Anagrams have same characters but different order.
+Example:
+
+Input: s = "abab", p = "ab"
+Output: [0, 2] (substrings "ab" and "ab")
+
+Your Task: Use fixed window of size len(p).
+
+"""
+
+     
+def find_all_anagrams(s, p): 
+    p_length = len(p)
+    if len(p) > len(s):
+        return []
+    output = []
+    p_hash, s_hash = {}, {}
+    for i in range(len(p)): 
+        p_hash[p[i]] = p_hash.get(p[i], 0) +1
+        s_hash[s[i]] = s_hash.get(s[i], 0) +1
+    if s_hash == p_hash:
+        output.append(0)
+
+    for i in range(p_length, len(s)): 
+        left_char = i-p_length
+        s_hash[s[left_char]] -=1
+        if s_hash[s[left_char]]==0:
+            del s_hash[s[left_char]]
+        s_hash[s[i]] = s_hash.get(s[i], 0) +1
+        if s_hash == p_hash:
+            output.append(i-p_length+1)
+    return output
+        
+print(find_all_anagrams("laikkdabcadafbca", "abc")) 
+print(find_all_anagrams("abab", "ab")) 
+
