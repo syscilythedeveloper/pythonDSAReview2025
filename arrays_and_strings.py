@@ -77,4 +77,49 @@ def string_compression(input_s):
 print(string_compression("sssyy"))
 
 
+"""
+Defuse the bomb 
 
+if K > 0, replace the ith number with the sum of next k numbers 
+if K < 0, replace the ith number with the sum of previous k numbers 
+if K == 0, replace teh ith number with 0. 
+"""
+def defuse_the_bomb(arr, k):
+    results = [0] * len(arr)
+
+    for i in range(len(arr)):
+
+        if k == 0: 
+            results[i] = 0 
+        elif k > 0: 
+            #arr[0] = arr[1] + arr[2] + arr[3]
+            #arr[1] = arr[2] + arr[3] + arr[1]
+            #arr[2] = arr[3] + arr[1] + arr[2]
+            #arr[3] = arr[0] + arr[1] + arr[2]
+            total = 0 
+            for j in range(1, k+1):
+                index = (i +j) % len(arr)
+                print(f"Iteration: {i}. J is: {j}. Index is: {index}")
+               
+                total+=arr[index]
+                print(f"Total is: {total}")
+            results[i] = total 
+        else: 
+            #arr[0] = arr[3] + arr[2] + arr[1]
+            #arr[1] = arr[0] + arr[3] + arr[2]
+            #arr[2] = arr[1] + arr[0] + arr[3]
+            #arr[3] = arr[2] + arr[1] + arr[0]
+            total = 0
+            for j in range(1, abs(k)+1):
+                index = (i-j) % len(arr)
+                total += arr[index]
+            results[i] = total 
+
+
+
+    return results  
+  
+    
+print(defuse_the_bomb([1,2,3,4], 0))
+print(defuse_the_bomb([5,7,1,4], 3))
+print(defuse_the_bomb([2,4,9,3], -2))

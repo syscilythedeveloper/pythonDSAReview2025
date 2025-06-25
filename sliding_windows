@@ -106,7 +106,7 @@ Input: s = "abab", p = "ab"
 Output: [0, 2] (substrings "ab" and "ab")
 
 Your Task: Use fixed window of size len(p).
-
+*could use from collections import Counter to get a count of each letter, but that's prob not preferred for technical interviews
 """
 
      
@@ -115,23 +115,73 @@ def find_all_anagrams(s, p):
     if len(p) > len(s):
         return []
     output = []
-    p_hash, s_hash = {}, {}
+    p_count, s_count = {}, {}
     for i in range(len(p)): 
-        p_hash[p[i]] = p_hash.get(p[i], 0) +1
-        s_hash[s[i]] = s_hash.get(s[i], 0) +1
-    if s_hash == p_hash:
+        p_count[p[i]] = p_count.get(p[i], 0) +1
+        s_count[s[i]] = s_count.get(s[i], 0) +1
+    if s_count == p_count:
         output.append(0)
 
     for i in range(p_length, len(s)): 
         left_char = i-p_length
-        s_hash[s[left_char]] -=1
-        if s_hash[s[left_char]]==0:
-            del s_hash[s[left_char]]
-        s_hash[s[i]] = s_hash.get(s[i], 0) +1
-        if s_hash == p_hash:
+        s_count[s[left_char]] -=1
+        if s_count[s[left_char]]==0:
+            del s_count[s[left_char]]
+        s_count[s[i]] = s_count.get(s[i], 0) +1
+        if s_count == p_count:
             output.append(i-p_length+1)
     return output
         
 print(find_all_anagrams("laikkdabcadafbca", "abc")) 
 print(find_all_anagrams("abab", "ab")) 
 
+"""
+5. Sliding Window Maximum
+Difficulty: Hard
+Problem: Given an array and sliding window of size K, find the maximum element in each window position.
+Example:
+
+Input: [1,3,-1,-3,5,3,6,7], K = 3
+Output: [3,3,5,5,6,7]
+
+Your Task: Return array of maximums for each window position.
+brute force 
+"""
+
+def window_max(arr, k):
+    output=[]
+    window = max(arr[:k])
+    output.append(window)
+
+    for i in range(k, len(arr)):
+        window = max(arr[i-k:i+1])
+        output.append(window)
+
+
+
+
+    return output
+
+print(window_max([1,3,-1,-3,5,3,6,7], 3))
+
+def maxNoRepeats(arr):
+    left = 0 
+    max_count = 0
+    char_count = set()
+
+    for right in range(len(arr)):
+       
+      
+        while arr[right] in char_count: 
+            char_count.remove(arr[left])
+            left +=1
+        char_count.add(arr[right])
+        current_count = right - left + 1
+        max_count = max(max_count, current_count)
+    
+    
+      
+    return max_count
+
+  
+print(maxNoRepeats("aabcabcbbdrt"))

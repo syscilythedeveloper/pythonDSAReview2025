@@ -1,2 +1,0 @@
-     if s_hash == p_hash:
-            output.append(i-p_length+1)
